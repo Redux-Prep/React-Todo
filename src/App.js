@@ -17,10 +17,10 @@ const todos = [
 		task      : 'Open the Dark Pyramid',
 		id        : 3,
 		completed : false,
-  },
-  {
-    todoText : '',
-  }
+	},
+	{
+		todoText : '',
+	},
 ];
 
 class App extends Component {
@@ -70,17 +70,15 @@ class App extends Component {
 	};
 	handleSubmit = e => {
 		e.preventDefault();
-		this.props.addTodo(this.state.todoText);
-  };
-  
-  handleChanges = e => {
-		this.setState({
-			todoText : e.target.value,
-		});
-	};
-	handleSubmit = e => {
-		e.preventDefault();
 		this.addTodo(this.state.todoText);
+	};
+	clearTodos = todoList => {
+		const filteredTodos = todoList.filter(todo => todo.completed === false);
+		this.setState({
+			todoList : [
+				filteredTodos,
+			],
+		});
 	};
 
 	// design `App` to be the parent component of your application.
@@ -91,7 +89,7 @@ class App extends Component {
 			<div>
 				<h2>Welcome to your Todo App!</h2>
 				<TodoForm handleChanges={this.handleChanges} handleSubmit={this.handleSubmit} />
-				<TodoList todos={sortedList} toggleTodo={this.toggleTodo} />
+				<TodoList todos={sortedList} toggleTodo={this.toggleTodo} clearTodos={this.clearTodos} />
 			</div>
 		);
 	}

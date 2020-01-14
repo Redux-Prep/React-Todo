@@ -5,14 +5,12 @@ import Todo from './Todo';
 
 const TodoList = props => {
 	return (
-        <div className='todo-list'>
-            {props.todos.map(todo => (
-                <Todo key={todo.key} todo={todo} toggleTodo={props.toggleTodo} />
-            ))}
-            <button className='clear-btn' onClick={props.clearTodos}>
-                Clear Todos
-            </button>
-        </div>
-    )
+		<div className='todo-list'>
+			{props.todos.map(todo => <Todo key={todo.key} todo={todo} toggleTodo={props.toggleTodo} />)}
+			<button className='clear-btn' onClick={props.clearTodos}>
+				Clear Todos
+			</button>
+		</div>
+	);
 };
 export default TodoList;
