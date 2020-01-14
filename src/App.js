@@ -17,7 +17,10 @@ const todos = [
 		task      : 'Open the Dark Pyramid',
 		id        : 3,
 		completed : false,
-	},
+  },
+  {
+    todoText : '',
+  }
 ];
 
 class App extends Component {
@@ -27,45 +30,68 @@ class App extends Component {
 		this.state = {
 			todoList : todos,
 		};
-  }
-  
-  toggleTodo = id => {
-    const newTodoList = this.state.todoList.map(todo => {
-      if (todo.id === id) {
-        return {
-          ...todo,
-          completed : !todo.completed,
-        }
-      } 
-      else {
-        return todo
-      }
-    })
-    this.setState({
-      todoList: newTodoList,
-    })
-  }
+	}
 
-  addTodo = todoTask => {
-    const newTodo = {
-      task: todoTask, 
-      id: Date.now(),
-      completed: false,
-    }
-    this.setState({
-      todoList: [...this.state.todoList, newTodo]
-    })
-  }
+	toggleTodo = id => {
+		const newTodoList = this.state.todoList.map(todo => {
+			if (todo.id === id) {
+				return {
+					...todo,
+					completed : !todo.completed,
+				};
+			}
+			else {
+				return todo;
+			}
+		});
+		this.setState({
+			todoList : newTodoList,
+		});
+	};
+
+	addTodo = todoTask => {
+		const newTodo = {
+			task      : todoTask,
+			id        : Date.now(),
+			completed : false,
+		};
+		this.setState({
+			todoList : [
+				...this.state.todoList,
+				newTodo,
+			],
+		});
+	};
+
+	handleChanges = e => {
+		this.setState({
+			todoText : e.target.value,
+		});
+	};
+	handleSubmit = e => {
+		e.preventDefault();
+		this.props.addTodo(this.state.todoText);
+  };
+  
+  handleChanges = e => {
+		this.setState({
+			todoText : e.target.value,
+		});
+	};
+	handleSubmit = e => {
+		e.preventDefault();
+		this.addTodo(this.state.todoText);
+	};
 
 	// design `App` to be the parent component of your application.
 	// this component is going to take care of state, and any change handlers you need to work with your state
 	render () {
-    const sortedList = this.state.todoList.sort((a,b) => a.completed - b.completed)
+		const sortedList = this.state.todoList.sort((a, b) => a.completed - b.completed);
 		return (
 			<div>
 				<h2>Welcome to your Todo App!</h2>
-        <TodoForm addTodo={this.addTodo}/>
-				<TodoList todos={sortedList} toggleTodo={this.toggleTodo}/>
+				<TodoForm handleChanges={this.handleChanges} handleSubmit={this.handleSubmit} />
+				<TodoList todos={sortedList} toggleTodo={this.toggleTodo} />
 			</div>
 		);
 	}
